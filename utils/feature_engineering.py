@@ -2,7 +2,7 @@ import pandas as pd
 from ta.momentum import RSIIndicator
 
 # read processed stock data
-df = pd.read_csv("data/processed/TCS_NS_clean.csv")
+df = pd.read_csv("data/processed/CAP_PA_clean.csv")
 
 if "unnamed: 0" in df.columns:
     df.drop(columns=["unnamed: 0"], inplace=True)
@@ -30,7 +30,7 @@ df['Target'] = df['Daily_Return'].shift(-1) > df['Close'].astype(int)
 df.dropna(inplace=True)  # drop rows with NaN values    
 
 # save the feature engineered data
-df.to_csv("data/processed/TCS_NS_features.csv", index=False) 
+df.to_csv("data/processed/CAP_PA_features.csv", index=False) 
 
-print("Feature engineered data saved to data/processed/TCS_NS_features.csv")
+print("Feature engineered data saved to data/processed/CAP_PA_features.csv")
 print(df.head())

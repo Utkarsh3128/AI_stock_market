@@ -1,9 +1,9 @@
 import os
 import pandas as pd
 
-raw_path = "data/raw/TCS_NS.csv"
+raw_path = "data/raw/CAP_PA.csv"
 processed_dir = "data/processed"
-processed_path = os.path.join(processed_dir, "TCS_NS_clean.csv")
+processed_path = os.path.join(processed_dir, "CAP_PA_clean.csv")
 
 def preprocess_stock_data():
     df = pd.read_csv(raw_path)

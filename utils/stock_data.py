@@ -1,25 +1,17 @@
-from yfinance.utils import auto_adjust
 import os 
+from sympy import false
 import yfinance as yf
 import pandas as pd
 
-def fetch_stock_data(symbol="TCS.NS", period="5y"):
-    data = yf.download(symbol, period=period, auto_adjust=False)
+def download_stock_data(ticker):
 
-    if isinstance(data.columns, pd.MultiIndex):
-        data.columns = data.columns.get_level_values(0)
-        data.reset_index(inplace=True)
+    stock = yf.download(ticker, period="5y",progress=False,auto_adjust=False,group_by='column')
+
+    stock.columns= stock.columns.get_level_values(0)
+
+    if stock.empty:
+        raise ValueError(f"No data found for ticker: {ticker}")
     
-    os.makedirs("data/raw", exist_ok=True)
+    stock.reset_index(inplace=True)
 
-    file_path = f"data/raw/{symbol.replace('.', '_')}.csv"
-    data.to_csv(file_path)
-
-    print(f"Data for {symbol} saved to {file_path}")
-
-    return data
-
-if __name__ == "__main__":
-    df=fetch_stock_data()
-
-    print=(df.head())
+    return stock
