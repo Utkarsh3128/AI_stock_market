@@ -1,4 +1,6 @@
+import AISummary from "./components/AISummary";
 import Navbar from "./components/Navbar";
+import { PredictionCard } from "./components/PredictionCard";
 import StatsCards from "./components/StatsCards";
 import StockChart from "./components/StockChart";
 import Stockselector from "./components/Stockselector";
@@ -14,6 +16,8 @@ function App() {
       <Stockselector onPredict={setStockData}/>
       <StatsCards stockData={stockData}/>
       <StockChart stockData={stockData}/>
+      <PredictionCard stockData={stockData}/>
+      <AISummary stockData={stockData}/>
     </div>
   );
 }

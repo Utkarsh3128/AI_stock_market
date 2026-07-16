@@ -12,6 +12,18 @@ def download_stock_data(ticker):
     if stock.empty:
         raise ValueError(f"No data found for ticker: {ticker}")
     
-    stock.reset_index(inplace=True)
+    stock.reset_index(inplace=True) # reset index to have 'Date' as a column
+
+    # remove duplicates rows
+    stock.drop_duplicates(inplace=True)
+
+    # sort by date
+    stock.sort_values(by="Date", inplace=True)
+
+    stock.ffill(inplace=True)  # forward fill missing values
+
+    stock.dropna(inplace=True)  # drop any remaining rows with NaN values
+
+    stock.reset_index(drop=True, inplace=True)  # reset index after dropping rows
 
     return stock

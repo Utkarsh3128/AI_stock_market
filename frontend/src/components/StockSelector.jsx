@@ -28,10 +28,11 @@ export default function Stockselector({onPredict}) {
                 <div className="flex gap-4">
                     <select value={ticker} onChange={(e) => setTicker(e.target.value)} className="flex-1 bg-slate-700 text-white rounded-lg px-4 py-3 outline-none">
                         <option value="CAP.PA">Capgemini</option>
-                        <option value="FARM.PA">Farmers</option>
+                        <option value="ZURN.SW">Farmers</option>
                         <option value="MSFT">Microsoft</option>
                         <option value="AAPL">Apple</option>
                         <option value="GOOGL">Google</option>
+                        <option value="TCS.NS">TCS</option>
                     </select>
 
                     <button onClick={handlePredict} disabled={loading} className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 rounded-lg">

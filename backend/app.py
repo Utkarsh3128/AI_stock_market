@@ -3,8 +3,14 @@ from pydantic import BaseModel
 from utils.stock_data import download_stock_data
 import pandas as pd
 from fastapi.middleware.cors import CORSMiddleware
+import joblib
+import numpy as np
+from backend.gemini_summary import generate_summary
 
 app = FastAPI()
+
+model = joblib.load("models/random_forest_model.pkl")
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -48,10 +54,32 @@ def predict(request: StockRequest):
 
     latest = df.iloc[-1]
 
-    prediction = "Buy" 
+    features= np.array(
+        [[latest["SMA_20"], latest["EMA_20"], latest["RSI_14"]]]
+    )
 
-    if latest["RSI_14"] > 60:
-        prediction = "Sell"
+    prediction = model.predict(features)[0]
+
+    confidence = round(max(model.predict_proba(features)[0]) * 100, 2)
+
+    prediction = "Buy" if prediction == 1 else "Sell"
+
+    gemini_summary = generate_summary(
+        ticker,
+        prediction,
+        confidence,
+        round(float(latest["Close"]), 2),
+        round(float(latest["SMA_20"]), 2),
+        round(float(latest["EMA_20"]), 2),
+        round(float(latest["RSI_14"]), 2),
+    )
+
+    df=df.fillna(0)
+
+    if prediction == "Buy":
+        predicted_price = round(float(latest["Close"]) * 1.05, 2)
+    else:
+        predicted_price = round(float(latest["Close"]) * 0.98, 2)
 
     return {
         "ticker": ticker,
@@ -60,8 +88,12 @@ def predict(request: StockRequest):
         "EMA_20": round(float(latest["EMA_20"]), 2),
         "RSI_14": round(float(latest["RSI_14"]), 2),
         "prediction": prediction,
-        "dates": df["Date"].astype(str).tolist(),
+        "predicted_price": predicted_price,
+        "confidence": confidence,
+        "summary": gemini_summary,
+        "dates": df["Date"].dt.strftime("%Y-%m-%d").tolist(),
         "close": df["Close"].round(2).tolist(),
-        "sma_values": df["SMA_20"].round(2).tolist(),
-        "ema_values": df["EMA_20"].round(2).tolist(),
+        "sma_values": df["SMA_20"].fillna(0).round(2).tolist(),
+        "ema_values": df["EMA_20"].fillna(0).round(2).tolist(),
+        "rsi_values": df["RSI_14"].fillna(0).round(2).tolist(),
     }
