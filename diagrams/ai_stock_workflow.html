@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI-Powered Stock Market Prediction System – Diagrams</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy:    #0a1628;
+      --navy2:   #0d1f3c;
+      --navy3:   #112244;
+      --blue:    #1a3a6b;
+      --blue2:   #1e4d8c;
+      --accent:  #2d6cdf;
+      --sky:     #4a9eff;
+      --green:   #00c896;
+      --green2:  #00a878;
+      --teal:    #00ddc2;
+      --gold:    #f5a623;
+      --purple:  #7c5cfc;
+      --red:     #ff5c72;
+      --white:   #ffffff;
+      --gray:    #8b9cbf;
+      --light:   #c8d8f0;
+      --card-bg: rgba(255,255,255,0.04);
+      --border:  rgba(74,158,255,0.2);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--navy);
+      color: var(--white);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─────────────────────────────── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(10,22,40,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex; gap: 8px;
+      padding: 12px 32px;
+    }
+    nav button {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--light);
+      padding: 8px 20px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 13px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      transition: all .25s;
+    }
+    nav button:hover, nav button.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+      box-shadow: 0 0 18px rgba(45,108,223,.4);
+    }
+
+    /* ─── SECTIONS ────────────────────────── */
+    section { display: none; padding: 48px 24px 80px; max-width: 1400px; margin: 0 auto; }
+    section.active { display: block; }
+
+    /* ─── HERO HEADER ─────────────────────── */
+    .hero {
+      text-align: center;
+      margin-bottom: 56px;
+      animation: fadeUp .6s ease both;
+    }
+    .hero .badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(45,108,223,.15);
+      border: 1px solid rgba(45,108,223,.4);
+      padding: 6px 18px; border-radius: 50px;
+      font-size: 12px; font-weight: 600; letter-spacing: .08em;
+      color: var(--sky); text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+    .hero h1 {
+      font-size: clamp(26px, 4vw, 44px);
+      font-weight: 900;
+      background: linear-gradient(135deg, #fff 0%, var(--sky) 50%, var(--teal) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      line-height: 1.2; margin-bottom: 14px;
+    }
+    .hero p {
+      color: var(--gray); font-size: 16px; max-width: 620px; margin: 0 auto;
+    }
+
+    /* ─── WORKFLOW DIAGRAM ────────────────── */
+    .workflow-grid {
+      display: grid;
+      grid-template-columns: 1fr 60px 1fr 60px 1fr;
+      gap: 0;
+      align-items: start;
+    }
+
+    .wf-col { display: flex; flex-direction: column; gap: 0; }
+
+    .wf-lane-title {
+      text-align: center;
+      padding: 12px 8px 20px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--sky);
+      border-bottom: 2px solid var(--border);
+      margin-bottom: 24px;
+    }
+
+    .wf-arrow-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding-top: 60px;
+      gap: 0;
+    }
+
+    .wf-step {
+      position: relative;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px 16px;
+      margin-bottom: 16px;
+      transition: transform .25s, box-shadow .25s;
+      animation: fadeUp .5s ease both;
+    }
+    .wf-step:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(45,108,223,.25);
+    }
+    .wf-step .step-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      margin-bottom: 12px;
+    }
+    .wf-step .step-num {
+      position: absolute; top: 14px; right: 14px;
+      background: rgba(255,255,255,.07);
+      border-radius: 50%;
+      width: 26px; height: 26px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700; color: var(--gray);
+    }
+    .wf-step h4 { font-size: 13px; font-weight: 700; margin-bottom: 5px; }
+    .wf-step p  { font-size: 11.5px; color: var(--gray); line-height: 1.55; }
+    .wf-step .tag {
+      display: inline-block; margin-top: 10px;
+      padding: 3px 10px; border-radius: 50px;
+      font-size: 10px; font-weight: 700; letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    /* color variants */
+    .c-react  { border-color: rgba(97,218,251,.3); }
+    .c-react .step-icon  { background: rgba(97,218,251,.12); }
+    .c-react .tag        { background: rgba(97,218,251,.15); color: #61dafb; }
+
+    .c-api    { border-color: rgba(45,108,223,.35); }
+    .c-api .step-icon    { background: rgba(45,108,223,.15); }
+    .c-api .tag          { background: rgba(45,108,223,.2); color: var(--sky); }
+
+    .c-ml     { border-color: rgba(0,200,150,.3); }
+    .c-ml .step-icon     { background: rgba(0,200,150,.12); }
+    .c-ml .tag           { background: rgba(0,200,150,.15); color: var(--green); }
+
+    .c-gemini { border-color: rgba(124,92,252,.3); }
+    .c-gemini .step-icon { background: rgba(124,92,252,.12); }
+    .c-gemini .tag       { background: rgba(124,92,252,.15); color: #b39dfc; }
+
+    .c-output { border-color: rgba(245,166,35,.3); }
+    .c-output .step-icon { background: rgba(245,166,35,.12); }
+    .c-output .tag       { background: rgba(245,166,35,.15); color: var(--gold); }
+
+    /* Arrows */
+    .arrow-h {
+      display: flex; align-items: center; justify-content: center;
+      height: 60px; width: 100%;
+    }
+    .arrow-h svg { width: 48px; }
+
+    /* ─── ARCHITECTURE ─────────────────────── */
+    .arch-wrap {
+      display: flex; flex-direction: column; gap: 32px;
+      animation: fadeUp .6s ease both;
+    }
+
+    .arch-tier {
+      display: flex; gap: 16px; align-items: stretch;
+    }
+    .arch-tier-label {
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      transform: rotate(180deg);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--gray);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      padding: 0 4px;
+    }
+
+    .arch-cards {
+      flex: 1;
+      display: flex; gap: 14px; flex-wrap: wrap;
+    }
+
+    .arch-card {
+      flex: 1; min-width: 180px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 22px 18px;
+      transition: transform .25s, box-shadow .25s;
+      animation: fadeUp .5s ease both;
+    }
+    .arch-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 50px rgba(45,108,223,.2);
+    }
+    .arch-card .icon-lg {
+      font-size: 36px;
+      margin-bottom: 12px;
+      display: block;
+    }
+    .arch-card h3 { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+    .arch-card ul {
+      list-style: none;
+      font-size: 12px;
+      color: var(--gray);
+      line-height: 2;
+    }
+    .arch-card ul li::before { content: '›  '; color: var(--accent); font-weight: 700; }
+    .arch-card .pill {
+      display: inline-block; margin-top: 12px;
+      padding: 4px 12px; border-radius: 50px;
+      font-size: 10px; font-weight: 700;
+      background: rgba(45,108,223,.15); color: var(--sky);
+    }
+
+    .arch-divider {
+      display: flex; align-items: center; gap: 16px;
+    }
+    .arch-divider hr { flex: 1; border: none; border-top: 1px dashed var(--border); }
+    .arch-divider span {
+      font-size: 11px; font-weight: 600;
+      color: var(--gray); white-space: nowrap;
+    }
+
+    /* ─── DATA FLOW ─────────────────────────── */
+    .dfd-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      animation: fadeUp .6s ease both;
+    }
+
+    .dfd-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      width: 100%;
+    }
+
+    .dfd-node {
+      position: relative;
+      background: var(--card-bg);
+      border: 2px solid var(--border);
+      border-radius: 20px;
+      padding: 20px 24px;
+      text-align: center;
+      min-width: 160px;
+      max-width: 220px;
+      transition: transform .25s, box-shadow .25s;
+      animation: fadeUp .5s ease both;
+    }
+    .dfd-node:hover {
+      transform: scale(1.04);
+      box-shadow: 0 8px 32px rgba(45,108,223,.3);
+    }
+    .dfd-node .n-icon { font-size: 32px; margin-bottom: 8px; }
+    .dfd-node h4 { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+    .dfd-node p  { font-size: 11px; color: var(--gray); }
+
+    .dfd-arrow-v {
+      display: flex; flex-direction: column; align-items: center;
+      padding: 4px 0;
+    }
+    .dfd-arrow-v .pipe { width: 2px; height: 28px; background: linear-gradient(to bottom, var(--accent), var(--green)); }
+    .dfd-arrow-v .head { width: 0; height: 0; border-left: 7px solid transparent; border-right: 7px solid transparent; border-top: 10px solid var(--green); }
+    .dfd-arrow-v .label {
+      font-size: 10px; font-weight: 600; color: var(--sky);
+      background: rgba(45,108,223,.15); border: 1px solid rgba(45,108,223,.3);
+      padding: 3px 10px; border-radius: 50px; margin: 4px 0;
+    }
+
+    .dfd-arrow-h {
+      display: flex; flex-direction: row; align-items: center;
+      padding: 0 4px;
+    }
+    .dfd-arrow-h .pipe { height: 2px; width: 36px; background: linear-gradient(to right, var(--accent), var(--green)); }
+    .dfd-arrow-h .head { width: 0; height: 0; border-top: 7px solid transparent; border-bottom: 7px solid transparent; border-left: 10px solid var(--green); }
+
+    .dfd-data-badge {
+      background: rgba(0,200,150,.08);
+      border: 1px solid rgba(0,200,150,.25);
+      border-radius: 12px;
+      padding: 12px 20px;
+      text-align: center;
+      min-width: 140px;
+    }
+    .dfd-data-badge h5 { font-size: 11px; font-weight: 700; color: var(--teal); margin-bottom: 4px; }
+    .dfd-data-badge p  { font-size: 10.5px; color: var(--gray); }
+
+    /* node colour variants */
+    .dn-react  { border-color: rgba(97,218,251,.4); }
+    .dn-fast   { border-color: rgba(45,108,223,.4); }
+    .dn-yf     { border-color: rgba(245,166,35,.4); }
+    .dn-ml     { border-color: rgba(0,200,150,.4); }
+    .dn-gem    { border-color: rgba(124,92,252,.4); }
+    .dn-out    { border-color: rgba(0,221,194,.4); }
+
+    /* ─── SCRIPT SECTION ────────────────────── */
+    .script-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 40px 48px;
+      animation: fadeUp .6s ease both;
+    }
+    .script-card h2 {
+      font-size: 22px; font-weight: 800;
+      background: linear-gradient(135deg, #fff, var(--sky));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 28px;
+    }
+    .script-seg {
+      border-left: 3px solid var(--accent);
+      padding: 16px 24px;
+      margin-bottom: 20px;
+      background: rgba(45,108,223,.05);
+      border-radius: 0 12px 12px 0;
+    }
+    .script-seg h4 {
+      font-size: 12px; font-weight: 700;
+      color: var(--sky); letter-spacing: .08em;
+      text-transform: uppercase; margin-bottom: 8px;
+    }
+    .script-seg p {
+      font-size: 14px; line-height: 1.8; color: #d0ddf5;
+    }
+    .script-timer {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(245,166,35,.12);
+      border: 1px solid rgba(245,166,35,.3);
+      color: var(--gold); font-size: 11px; font-weight: 700;
+      padding: 4px 14px; border-radius: 50px; margin-bottom: 24px;
+    }
+
+    /* ─── LEGEND ──────────────────────────── */
+    .legend {
+      display: flex; flex-wrap: wrap; gap: 12px;
+      margin-top: 32px; margin-bottom: 40px;
+      justify-content: center;
+    }
+    .legend-item {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--card-bg); border: 1px solid var(--border);
+      padding: 6px 16px; border-radius: 50px;
+      font-size: 12px; font-weight: 500; color: var(--light);
+    }
+    .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+    /* ─── ANIMATIONS ───────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── PRINT / EXPORT HELPER ─────────────── */
+    @media print {
+      nav { display: none; }
+      section { display: block !important; padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── NAV ─────────────────────────────────────── -->
+<nav>
+  <button class="active" onclick="show('workflow', this)">🔄 Workflow</button>
+  <button onclick="show('architecture', this)">🏗️ Architecture</button>
+  <button onclick="show('dataflow', this)">📊 Data Flow</button>
+  <button onclick="show('script', this)">🎤 Presentation Script</button>
+</nav>
+
+<!-- ════════════════════════════════════════════════
+     PAGE 1 · WORKFLOW DIAGRAM
+     ════════════════════════════════════════════════ -->
+<section id="workflow" class="active">
+  <div class="hero">
+    <div class="badge">⚡ End-to-End Process</div>
+    <h1>AI-Powered Stock Market Prediction System</h1>
+    <p>Complete prediction workflow — from user input to AI-generated insights</p>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#61dafb"></div> React Frontend</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--accent)"></div> FastAPI Backend</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div> ML Engine</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#7c5cfc"></div> Gemini AI</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--gold)"></div> Output / Dashboard</div>
+  </div>
+
+  <div class="workflow-grid">
+
+    <!-- COL 1 : FRONTEND -->
+    <div class="wf-col">
+      <div class="wf-lane-title">⚛️ React Frontend</div>
+
+      <div class="wf-step c-react" style="animation-delay:.1s">
+        <div class="step-icon">🌐</div>
+        <div class="step-num">1</div>
+        <h4>User Opens App</h4>
+        <p>User launches the React web application in their browser — the interactive stock prediction dashboard loads.</p>
+        <span class="tag">React SPA</span>
+      </div>
+
+      <div class="wf-step c-react" style="animation-delay:.2s">
+        <div class="step-icon">⌨️</div>
+        <div class="step-num">2</div>
+        <h4>Enter Stock Ticker</h4>
+        <p>User types a ticker symbol (e.g., <strong>AAPL</strong>, <strong>RELIANCE.NS</strong>) and clicks <em>Predict</em>.</p>
+        <span class="tag">User Interaction</span>
+      </div>
+
+      <div class="wf-step c-react" style="animation-delay:.3s">
+        <div class="step-icon">📡</div>
+        <div class="step-num">3</div>
+        <h4>REST API Call</h4>
+        <p>React sends a POST request to the FastAPI backend, passing the ticker symbol as the payload.</p>
+        <span class="tag">HTTP / JSON</span>
+      </div>
+    </div>
+
+    <!-- ARROW H 1 -->
+    <div class="wf-arrow-col">
+      <svg viewBox="0 0 48 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="gr1" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#2d6cdf"/>
+            <stop offset="100%" stop-color="#00c896"/>
+          </linearGradient>
+        </defs>
+        <line x1="4" y1="10" x2="38" y2="10" stroke="url(#gr1)" stroke-width="2.5"/>
+        <polygon points="36,5 48,10 36,15" fill="#00c896"/>
+      </svg>
+      <div style="font-size:9px;color:var(--gray);text-align:center;margin-top:4px">POST /predict</div>
+    </div>
+
+    <!-- COL 2 : FASTAPI + ML -->
+    <div class="wf-col">
+      <div class="wf-lane-title">⚡ FastAPI Backend + ML Engine</div>
+
+      <div class="wf-step c-api" style="animation-delay:.2s">
+        <div class="step-icon">🔌</div>
+        <div class="step-num">4</div>
+        <h4>FastAPI Receives Request</h4>
+        <p>FastAPI validates the incoming ticker and routes it to the prediction pipeline.</p>
+        <span class="tag">FastAPI</span>
+      </div>
+
+      <div class="wf-step c-api" style="animation-delay:.3s">
+        <div class="step-icon">📥</div>
+        <div class="step-num">5</div>
+        <h4>Download Historical Data</h4>
+        <p>yfinance pulls <strong>5 years</strong> of OHLCV stock data from Yahoo Finance for the given ticker.</p>
+        <span class="tag">yfinance API</span>
+      </div>
+
+      <div class="wf-step c-api" style="animation-delay:.4s">
+        <div class="step-icon">🧹</div>
+        <div class="step-num">6</div>
+        <h4>Data Preprocessing</h4>
+        <p>Reset index → Remove duplicates → Sort by Date → Forward fill → Drop nulls.</p>
+        <span class="tag">Pandas</span>
+      </div>
+
+      <div class="wf-step c-ml" style="animation-delay:.5s">
+        <div class="step-icon">🔧</div>
+        <div class="step-num">7</div>
+        <h4>Feature Engineering</h4>
+        <p>Computes <strong>SMA 20</strong>, <strong>EMA 20</strong>, and <strong>RSI 14</strong> as model input features.</p>
+        <span class="tag">Technical Indicators</span>
+      </div>
+
+      <div class="wf-step c-ml" style="animation-delay:.6s">
+        <div class="step-icon">🌲</div>
+        <div class="step-num">8</div>
+        <h4>Random Forest Inference</h4>
+        <p>Trained RF Classifier runs inference on engineered features to generate a prediction.</p>
+        <span class="tag">scikit-learn</span>
+      </div>
+
+      <div class="wf-step c-ml" style="animation-delay:.7s">
+        <div class="step-icon">🎯</div>
+        <div class="step-num">9–10</div>
+        <h4>Prediction + Price Estimate</h4>
+        <p>Model outputs <strong>Buy / Sell</strong> signal with Confidence Score and estimates the next predicted price.</p>
+        <span class="tag">ML Output</span>
+      </div>
+    </div>
+
+    <!-- ARROW H 2 -->
+    <div class="wf-arrow-col" style="padding-top:80px">
+      <svg viewBox="0 0 48 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="gr2" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#00c896"/>
+            <stop offset="100%" stop-color="#7c5cfc"/>
+          </linearGradient>
+        </defs>
+        <line x1="4" y1="10" x2="38" y2="10" stroke="url(#gr2)" stroke-width="2.5"/>
+        <polygon points="36,5 48,10 36,15" fill="#7c5cfc"/>
+      </svg>
+      <div style="font-size:9px;color:var(--gray);text-align:center;margin-top:4px">Gemini API Call</div>
+
+      <div style="height:120px"></div>
+
+      <svg viewBox="0 0 48 20" fill="none" style="transform:rotate(180deg)" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="gr3" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#7c5cfc"/>
+            <stop offset="100%" stop-color="#f5a623"/>
+          </linearGradient>
+        </defs>
+        <line x1="4" y1="10" x2="38" y2="10" stroke="url(#gr3)" stroke-width="2.5"/>
+        <polygon points="36,5 48,10 36,15" fill="#f5a623"/>
+      </svg>
+      <div style="font-size:9px;color:var(--gray);text-align:center;margin-top:4px">JSON Response</div>
+    </div>
+
+    <!-- COL 3 : GEMINI + OUTPUT -->
+    <div class="wf-col">
+      <div class="wf-lane-title">🤖 Gemini AI + Dashboard Output</div>
+
+      <div class="wf-step c-gemini" style="animation-delay:.3s">
+        <div class="step-icon">✨</div>
+        <div class="step-num">11</div>
+        <h4>Send to Google Gemini</h4>
+        <p>Prediction results — Price, SMA, EMA, RSI, Confidence — are packaged and sent to Gemini API.</p>
+        <span class="tag">Gemini API</span>
+      </div>
+
+      <div class="wf-step c-gemini" style="animation-delay:.4s">
+        <div class="step-icon">💬</div>
+        <div class="step-num">12</div>
+        <h4>AI Explanation Generated</h4>
+        <p>Gemini returns a natural-language explanation of the Buy/Sell recommendation in plain English.</p>
+        <span class="tag">LLM · NLP</span>
+      </div>
+
+      <div class="wf-step c-api" style="animation-delay:.5s">
+        <div class="step-icon">📦</div>
+        <div class="step-num">13</div>
+        <h4>FastAPI Returns Response</h4>
+        <p>Complete JSON payload (Price, SMA, EMA, RSI, Prediction, Confidence, AI Summary, Chart Data) sent to React.</p>
+        <span class="tag">REST Response</span>
+      </div>
+
+      <div class="wf-step c-output" style="animation-delay:.6s">
+        <div class="step-icon">📊</div>
+        <div class="step-num">14</div>
+        <h4>Dashboard Renders Results</h4>
+        <p>React renders the Prediction Card, Current &amp; Predicted Price, Confidence, AI Summary, Stock Chart, SMA/EMA &amp; RSI Charts.</p>
+        <span class="tag">Dashboard</span>
+      </div>
+    </div>
+
+  </div><!-- /workflow-grid -->
+</section>
+
+
+<!-- ════════════════════════════════════════════════
+     PAGE 2 · ARCHITECTURE DIAGRAM
+     ════════════════════════════════════════════════ -->
+<section id="architecture">
+  <div class="hero">
+    <div class="badge">🏗️ System Architecture</div>
+    <h1>AI-Powered Stock Market Prediction System</h1>
+    <p>Three-tier architecture: Presentation → Application → AI/Data Layer</p>
+  </div>
+
+  <div class="arch-wrap">
+
+    <!-- TIER 1: PRESENTATION -->
+    <div class="arch-tier">
+      <div class="arch-tier-label">PRESENTATION</div>
+      <div class="arch-cards">
+        <div class="arch-card" style="border-color:rgba(97,218,251,.35); animation-delay:.1s">
+          <span class="icon-lg">⚛️</span>
+          <h3>React Frontend</h3>
+          <ul>
+            <li>Stock Ticker Input Form</li>
+            <li>Prediction Dashboard UI</li>
+            <li>Buy / Sell Result Card</li>
+            <li>AI Summary Panel</li>
+            <li>Interactive Charts</li>
+          </ul>
+          <span class="pill" style="background:rgba(97,218,251,.12);color:#61dafb">React · Chart.js · Axios</span>
+        </div>
+        <div class="arch-card" style="border-color:rgba(97,218,251,.35); animation-delay:.15s">
+          <span class="icon-lg">📊</span>
+          <h3>Visualization Layer</h3>
+          <ul>
+            <li>Historical Price Chart</li>
+            <li>SMA 20 Overlay</li>
+            <li>EMA 20 Overlay</li>
+            <li>RSI 14 Chart</li>
+            <li>Confidence Gauge</li>
+          </ul>
+          <span class="pill" style="background:rgba(97,218,251,.12);color:#61dafb">Recharts / Chart.js</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="arch-divider">
+      <hr/><span>REST API (HTTP/JSON)</span><hr/>
+    </div>
+
+    <!-- TIER 2: APPLICATION -->
+    <div class="arch-tier">
+      <div class="arch-tier-label">APPLICATION</div>
+      <div class="arch-cards">
+        <div class="arch-card" style="border-color:rgba(45,108,223,.4); animation-delay:.2s">
+          <span class="icon-lg">⚡</span>
+          <h3>FastAPI Server</h3>
+          <ul>
+            <li>POST /predict endpoint</li>
+            <li>Request validation (Pydantic)</li>
+            <li>Orchestrates pipeline</li>
+            <li>CORS middleware</li>
+            <li>JSON serialization</li>
+          </ul>
+          <span class="pill">Python · FastAPI · Uvicorn</span>
+        </div>
+        <div class="arch-card" style="border-color:rgba(0,200,150,.4); animation-delay:.25s">
+          <span class="icon-lg">🧹</span>
+          <h3>Data Pipeline</h3>
+          <ul>
+            <li>yfinance data ingestion</li>
+            <li>Duplicate removal</li>
+            <li>Forward fill imputation</li>
+            <li>Date sorting</li>
+            <li>Null cleanup</li>
+          </ul>
+          <span class="pill" style="background:rgba(0,200,150,.12);color:var(--green)">Pandas · NumPy</span>
+        </div>
+        <div class="arch-card" style="border-color:rgba(0,200,150,.4); animation-delay:.3s">
+          <span class="icon-lg">🔧</span>
+          <h3>Feature Engineering</h3>
+          <ul>
+            <li>SMA 20 (Simple Moving Avg)</li>
+            <li>EMA 20 (Exponential Moving Avg)</li>
+            <li>RSI 14 (Relative Strength Index)</li>
+            <li>Feature vector assembly</li>
+          </ul>
+          <span class="pill" style="background:rgba(0,200,150,.12);color:var(--green)">TA-Lib / Pandas</span>
+        </div>
+        <div class="arch-card" style="border-color:rgba(0,200,150,.4); animation-delay:.35s">
+          <span class="icon-lg">🌲</span>
+          <h3>ML Inference Engine</h3>
+          <ul>
+            <li>Random Forest Classifier</li>
+            <li>Buy / Sell signal output</li>
+            <li>Confidence score (probability)</li>
+            <li>Next price estimation</li>
+            <li>Pre-trained model (.pkl)</li>
+          </ul>
+          <span class="pill" style="background:rgba(0,200,150,.12);color:var(--green)">scikit-learn</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="arch-divider">
+      <hr/><span>External API Calls</span><hr/>
+    </div>
+
+    <!-- TIER 3: EXTERNAL -->
+    <div class="arch-tier">
+      <div class="arch-tier-label">AI / DATA LAYER</div>
+      <div class="arch-cards">
+        <div class="arch-card" style="border-color:rgba(245,166,35,.4); animation-delay:.4s">
+          <span class="icon-lg">📈</span>
+          <h3>Yahoo Finance API</h3>
+          <ul>
+            <li>5-year historical OHLCV data</li>
+            <li>Real-time current price</li>
+            <li>Ticker metadata</li>
+          </ul>
+          <span class="pill" style="background:rgba(245,166,35,.12);color:var(--gold)">yfinance · Free API</span>
+        </div>
+        <div class="arch-card" style="border-color:rgba(124,92,252,.4); animation-delay:.45s">
+          <span class="icon-lg">✨</span>
+          <h3>Google Gemini API</h3>
+          <ul>
+            <li>Receives prediction context</li>
+            <li>Generates plain-English explanation</li>
+            <li>Justifies Buy/Sell recommendation</li>
+            <li>Returns formatted summary</li>
+          </ul>
+          <span class="pill" style="background:rgba(124,92,252,.12);color:#b39dfc">LLM · Gemini Pro</span>
+        </div>
+        <div class="arch-card" style="border-color:rgba(0,221,194,.4); animation-delay:.5s">
+          <span class="icon-lg">💾</span>
+          <h3>Model & Data Store</h3>
+          <ul>
+            <li>Trained RF model (.pkl file)</li>
+            <li>Scaler / preprocessor artifacts</li>
+            <li>Historical chart data cache</li>
+          </ul>
+          <span class="pill" style="background:rgba(0,221,194,.12);color:var(--teal)">Local Filesystem</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════
+     PAGE 3 · DATA FLOW DIAGRAM
+     ════════════════════════════════════════════════ -->
+<section id="dataflow">
+  <div class="hero">
+    <div class="badge">📊 Data Flow</div>
+    <h1>AI-Powered Stock Market Prediction System</h1>
+    <p>How data moves through the system — from ticker symbol to dashboard insight</p>
+  </div>
+
+  <div class="dfd-wrap">
+
+    <!-- ROW: REACT INPUT -->
+    <div class="dfd-row">
+      <div class="dfd-node dn-react">
+        <div class="n-icon">⚛️</div>
+        <h4>React Frontend</h4>
+        <p>Ticker Input &amp; Predict Button</p>
+      </div>
+    </div>
+
+    <div class="dfd-arrow-v">
+      <div class="pipe"></div>
+      <div class="label">POST /api/predict · { ticker: "AAPL" }</div>
+      <div class="pipe"></div>
+      <div class="head"></div>
+    </div>
+
+    <!-- ROW: FASTAPI -->
+    <div class="dfd-row">
+      <div class="dfd-node dn-fast">
+        <div class="n-icon">⚡</div>
+        <h4>FastAPI Backend</h4>
+        <p>Validates &amp; routes request</p>
+      </div>
+    </div>
+
+    <div class="dfd-arrow-v">
+      <div class="pipe"></div>
+      <div class="label">yfinance.download("AAPL", period="5y")</div>
+      <div class="pipe"></div>
+      <div class="head"></div>
+    </div>
+
+    <!-- ROW: YAHOO + DATA -->
+    <div class="dfd-row" style="gap:40px; flex-wrap:wrap">
+      <div class="dfd-node dn-yf">
+        <div class="n-icon">📈</div>
+        <h4>Yahoo Finance</h4>
+        <p>Returns 5-year OHLCV data</p>
+      </div>
+      <div class="dfd-arrow-h">
+        <div class="pipe"></div>
+        <div class="head"></div>
+      </div>
+      <div class="dfd-data-badge">
+        <h5>Raw DataFrame</h5>
+        <p>Date, Open, High, Low,<br/>Close, Volume (~1250 rows)</p>
+      </div>
+    </div>
+
+    <div class="dfd-arrow-v">
+      <div class="pipe"></div>
+      <div class="label">Preprocessing · Pandas</div>
+      <div class="pipe"></div>
+      <div class="head"></div>
+    </div>
+
+    <!-- ROW: PREPROCESSING -->
+    <div class="dfd-row" style="gap:40px; flex-wrap:wrap">
+      <div class="dfd-node dn-fast" style="min-width:200px">
+        <div class="n-icon">🧹</div>
+        <h4>Data Preprocessing</h4>
+        <p>Reset index · Dedup · Sort · FillNA · Dropna</p>
+      </div>
+      <div class="dfd-arrow-h">
+        <div class="pipe"></div>
+        <div class="head"></div>
+      </div>
+      <div class="dfd-data-badge">
+        <h5>Clean DataFrame</h5>
+        <p>No nulls, no duplicates,<br/>sorted chronologically</p>
+      </div>
+    </div>
+
+    <div class="dfd-arrow-v">
+      <div class="pipe"></div>
+      <div class="label">Feature Engineering · TA-Lib / Pandas</div>
+      <div class="pipe"></div>
+      <div class="head"></div>
+    </div>
+
+    <!-- ROW: FEATURES -->
+    <div class="dfd-row" style="gap:40px; flex-wrap:wrap">
+      <div class="dfd-node dn-ml" style="min-width:200px">
+        <div class="n-icon">🔧</div>
+        <h4>Feature Engineering</h4>
+        <p>SMA 20 · EMA 20 · RSI 14</p>
+      </div>
+      <div class="dfd-arrow-h">
+        <div class="pipe"></div>
+        <div class="head"></div>
+      </div>
+      <div class="dfd-data-badge">
+        <h5>Feature Vector</h5>
+        <p>[SMA, EMA, RSI, Close, Volume]<br/>→ last row for inference</p>
+      </div>
+    </div>
+
+    <div class="dfd-arrow-v">
+      <div class="pipe"></div>
+      <div class="label">model.predict() · model.predict_proba()</div>
+      <div class="pipe"></div>
+      <div class="head"></div>
+    </div>
+
+    <!-- ROW: ML -->
+    <div class="dfd-row" style="gap:40px; flex-wrap:wrap">
+      <div class="dfd-node dn-ml" style="min-width:200px">
+        <div class="n-icon">🌲</div>
+        <h4>Random Forest Classifier</h4>
+        <p>Trained ML model inference</p>
+      </div>
+      <div class="dfd-arrow-h">
+        <div class="pipe"></div>
+        <div class="head"></div>
+      </div>
+      <div class="dfd-data-badge">
+        <h5>ML Output</h5>
+        <p>Prediction: BUY / SELL<br/>Confidence: 78%<br/>Predicted Price: ₹ / $</p>
+      </div>
+    </div>
+
+    <div class="dfd-arrow-v">
+      <div class="pipe"></div>
+      <div class="label">Gemini API · { context + prediction }</div>
+      <div class="pipe"></div>
+      <div class="head"></div>
+    </div>
+
+    <!-- ROW: GEMINI -->
+    <div class="dfd-row" style="gap:40px; flex-wrap:wrap">
+      <div class="dfd-node dn-gem" style="min-width:200px">
+        <div class="n-icon">✨</div>
+        <h4>Google Gemini LLM</h4>
+        <p>Generates plain-English explanation</p>
+      </div>
+      <div class="dfd-arrow-h">
+        <div class="pipe"></div>
+        <div class="head"></div>
+      </div>
+      <div class="dfd-data-badge">
+        <h5>AI Summary</h5>
+        <p>"The stock shows bullish momentum<br/>with RSI at 62 and upward EMA..."</p>
+      </div>
+    </div>
+
+    <div class="dfd-arrow-v">
+      <div class="pipe"></div>
+      <div class="label">200 OK · Full JSON Response</div>
+      <div class="pipe"></div>
+      <div class="head"></div>
+    </div>
+
+    <!-- ROW: OUTPUT -->
+    <div class="dfd-row" style="gap:40px; flex-wrap:wrap">
+      <div class="dfd-node dn-out" style="min-width:200px">
+        <div class="n-icon">📊</div>
+        <h4>React Dashboard</h4>
+        <p>Renders all results visually</p>
+      </div>
+      <div class="dfd-arrow-h">
+        <div class="pipe"></div>
+        <div class="head"></div>
+      </div>
+      <div class="dfd-data-badge" style="min-width:180px">
+        <h5>Final Output</h5>
+        <p>Price · Prediction · Confidence<br/>SMA · EMA · RSI · AI Summary<br/>Charts (Price · Indicators)</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════
+     PAGE 4 · PRESENTATION SCRIPT
+     ════════════════════════════════════════════════ -->
+<section id="script">
+  <div class="hero">
+    <div class="badge">🎤 Presentation Script</div>
+    <h1>2-Minute Presentation Script</h1>
+    <p>Suitable for managers, technical leads and non-technical stakeholders</p>
+  </div>
+
+  <div class="script-card">
+    <div class="script-timer">⏱️ Estimated Reading Time: ~2 minutes</div>
+
+    <div class="script-seg" style="border-color:var(--sky)">
+      <h4>🔹 Opening — Set the Scene (15 sec)</h4>
+      <p>
+        "Good [morning/afternoon] everyone. Today, I'd like to walk you through our
+        <strong>AI-Powered Stock Market Prediction System</strong> — a full-stack application that
+        combines machine learning and generative AI to give investors smart, data-driven
+        Buy or Sell recommendations for any listed stock in seconds."
+      </p>
+    </div>
+
+    <div class="script-seg" style="border-color:#61dafb">
+      <h4>⚛️ Step 1–3 — The User Experience (20 sec)</h4>
+      <p>
+        "It all starts with the user. They open our <strong>React web application</strong>, type in a
+        stock ticker — for example, <em>RELIANCE.NS</em> for Reliance Industries or <em>AAPL</em> for Apple —
+        and simply click <strong>Predict</strong>. That single click triggers a request to our backend
+        server through a standard REST API call."
+      </p>
+    </div>
+
+    <div class="script-seg" style="border-color:var(--accent)">
+      <h4>⚡ Steps 4–6 — Data Collection &amp; Cleaning (20 sec)</h4>
+      <p>
+        "Our <strong>FastAPI backend</strong> receives the request and immediately reaches out to
+        <strong>Yahoo Finance</strong> to download five years of historical stock data —
+        that's roughly 1,250 trading days of price and volume information. This raw data
+        is then cleaned automatically: we remove duplicates, sort it chronologically, and
+        fill in any missing values using a technique called forward fill."
+      </p>
+    </div>
+
+    <div class="script-seg" style="border-color:var(--green)">
+      <h4>🔧 Steps 7–10 — Feature Engineering &amp; ML Prediction (25 sec)</h4>
+      <p>
+        "Next, we run <strong>Feature Engineering</strong>. We calculate three key technical indicators
+        that traders use every day: <em>SMA 20</em> (Simple Moving Average), <em>EMA 20</em> (Exponential
+        Moving Average), and <em>RSI 14</em> (Relative Strength Index). These indicators become the
+        inputs to our trained <strong>Random Forest machine learning model</strong>, which analyzes
+        the patterns and outputs two things: a <strong>Buy or Sell signal</strong> and a
+        <strong>Confidence Score</strong> — telling you how certain the model is. It also estimates
+        the <strong>next predicted stock price</strong>."
+      </p>
+    </div>
+
+    <div class="script-seg" style="border-color:#7c5cfc">
+      <h4>✨ Steps 11–12 — The Gemini AI Explanation (15 sec)</h4>
+      <p>
+        "Here's where it gets really powerful. All the prediction data is sent to
+        <strong>Google Gemini</strong>, our large language model. Gemini reads the numbers and writes
+        a clear, human-friendly explanation — in plain English — of <em>why</em> the stock is
+        predicted as a Buy or Sell. No jargon, no confusion — just a clean insight anyone
+        can understand."
+      </p>
+    </div>
+
+    <div class="script-seg" style="border-color:var(--gold)">
+      <h4>📊 Steps 13–14 — The Dashboard (15 sec)</h4>
+      <p>
+        "Finally, everything is returned to the React frontend and rendered beautifully on
+        the <strong>prediction dashboard</strong>: the current price, the predicted price, the confidence
+        score, the AI-generated summary, and interactive charts — including the stock's price
+        history, moving averages, and RSI — all in one place."
+      </p>
+    </div>
+
+    <div class="script-seg" style="border-color:var(--teal)">
+      <h4>🔹 Closing — Value Proposition (15 sec)</h4>
+      <p>
+        "In summary, what we've built is a <strong>full-stack AI system</strong> that takes a stock
+        ticker as input and delivers a complete, intelligent investment analysis — powered by
+        <em>real historical data</em>, <em>machine learning</em>, and <em>generative AI</em> —
+        all within a few seconds. Thank you."
+      </p>
+    </div>
+
+    <!-- TECH STACK SUMMARY -->
+    <div style="margin-top:36px; padding:24px; background:rgba(45,108,223,.07); border:1px solid var(--border); border-radius:16px;">
+      <h3 style="font-size:14px;font-weight:700;color:var(--sky);margin-bottom:16px;letter-spacing:.06em;text-transform:uppercase;">🛠️ Technology Stack — Quick Reference</h3>
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:12px; font-size:12px;">
+        <div><span style="color:var(--gray)">Frontend:</span> <strong>React.js</strong></div>
+        <div><span style="color:var(--gray)">Backend:</span> <strong>FastAPI (Python)</strong></div>
+        <div><span style="color:var(--gray)">Data Source:</span> <strong>Yahoo Finance (yfinance)</strong></div>
+        <div><span style="color:var(--gray)">ML Model:</span> <strong>Random Forest Classifier</strong></div>
+        <div><span style="color:var(--gray)">ML Library:</span> <strong>scikit-learn</strong></div>
+        <div><span style="color:var(--gray)">Data Processing:</span> <strong>Pandas · NumPy</strong></div>
+        <div><span style="color:var(--gray)">AI Explanation:</span> <strong>Google Gemini API</strong></div>
+        <div><span style="color:var(--gray)">Charts:</span> <strong>Recharts / Chart.js</strong></div>
+        <div><span style="color:var(--gray)">API Protocol:</span> <strong>REST · JSON · HTTP</strong></div>
+        <div><span style="color:var(--gray)">Server:</span> <strong>Uvicorn / ASGI</strong></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<script>
+  function show(id, btn) {
+    document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
