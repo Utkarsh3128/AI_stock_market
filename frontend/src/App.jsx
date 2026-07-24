@@ -2,12 +2,14 @@ import { useState } from "react";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import Dashboard from "./components/Dashboard";
+import { ThemeProvider, useTheme } from "./context/ThemeContext";
 
-function App() {
+function MainContent() {
   const [stockData, setStockData] = useState(null);
+  const { isDark } = useTheme();
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden bg-[#0b0f1a]">
+    <div className={`flex flex-col h-screen overflow-hidden ${isDark ? "bg-[#0b0f1a] text-slate-100 dark" : "bg-[#f8fafc] text-slate-900 light"}`}>
       {/* Top Navbar - fixed height */}
       <Navbar />
 
@@ -22,6 +24,14 @@ function App() {
         </main>
       </div>
     </div>
+  );
+}
+
+function App() {
+  return (
+    <ThemeProvider>
+      <MainContent />
+    </ThemeProvider>
   );
 }
 

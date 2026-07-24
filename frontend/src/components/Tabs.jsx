@@ -1,3 +1,5 @@
+import { useTheme } from "../context/ThemeContext";
+
 const TABS = [
   {
     id: "overview",
@@ -42,16 +44,22 @@ const TABS = [
 ];
 
 export default function Tabs({ activeTab, onTabChange }) {
+  const { isDark } = useTheme();
+
   return (
-    <div className="flex items-center gap-1 bg-slate-800/60 border border-slate-700/50 rounded-xl p-1.5">
+    <div className={`flex items-center gap-1 border rounded-xl p-1.5 transition-colors ${
+      isDark ? "bg-slate-800/60 border-slate-700/50" : "bg-slate-100 border-slate-200"
+    }`}>
       {TABS.map((tab) => (
         <button
           key={tab.id}
           onClick={() => onTabChange(tab.id)}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold transition-all select-none ${
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold transition-all select-none cursor-pointer ${
             activeTab === tab.id
               ? "tab-active"
-              : "text-slate-400 hover:text-slate-200 hover:bg-slate-700/50"
+              : isDark
+              ? "text-slate-400 hover:text-slate-200 hover:bg-slate-700/50"
+              : "text-slate-600 hover:text-slate-900 hover:bg-slate-200/60"
           }`}
         >
           {tab.icon}

@@ -1,43 +1,52 @@
 import { OverviewChart } from "./Charts";
+import { useTheme } from "../context/ThemeContext";
 
 function StatCard({ label, value, icon, accent = "blue", sub }) {
+  const { isDark } = useTheme();
   const accents = {
-    blue:   { ring: "border-blue-500/20",   badge: "text-blue-400",   bg: "bg-blue-500/10" },
-    green:  { ring: "border-emerald-500/20", badge: "text-emerald-400", bg: "bg-emerald-500/10" },
-    orange: { ring: "border-orange-500/20",  badge: "text-orange-400",  bg: "bg-orange-500/10" },
-    violet: { ring: "border-violet-500/20",  badge: "text-violet-400",  bg: "bg-violet-500/10" },
+    blue:   { ring: isDark ? "border-blue-500/20" : "border-blue-200",   badge: isDark ? "text-blue-400 bg-blue-500/10" : "text-blue-700 bg-blue-50" },
+    green:  { ring: isDark ? "border-emerald-500/20" : "border-emerald-200", badge: isDark ? "text-emerald-400 bg-emerald-500/10" : "text-emerald-700 bg-emerald-50" },
+    orange: { ring: isDark ? "border-orange-500/20" : "border-orange-200",  badge: isDark ? "text-orange-400 bg-orange-500/10" : "text-orange-700 bg-orange-50" },
+    violet: { ring: isDark ? "border-violet-500/20" : "border-violet-200",  badge: isDark ? "text-violet-400 bg-violet-500/10" : "text-violet-700 bg-violet-50" },
   };
   const a = accents[accent] || accents.blue;
 
   return (
     <div className={`glass-card p-4 flex flex-col gap-3 border ${a.ring} accent-border-top fade-in-up`}>
       <div className="flex items-center justify-between">
-        <p className="text-[11px] uppercase tracking-widest text-slate-400 font-semibold">{label}</p>
-        <div className={`w-7 h-7 rounded-lg ${a.bg} flex items-center justify-center ${a.badge}`}>
+        <p className={`text-[11px] uppercase tracking-widest font-semibold ${isDark ? "text-slate-400" : "text-slate-500"}`}>{label}</p>
+        <div className={`w-7 h-7 rounded-lg flex items-center justify-center ${a.badge}`}>
           {icon}
         </div>
       </div>
-      <p className="text-2xl font-bold text-white">{value ?? "—"}</p>
-      {sub && <p className="text-[11px] text-slate-500">{sub}</p>}
+      <p className={`text-2xl font-bold ${isDark ? "text-white" : "text-slate-900"}`}>{value ?? "—"}</p>
+      {sub && <p className={`text-[11px] ${isDark ? "text-slate-500" : "text-slate-400"}`}>{sub}</p>}
     </div>
   );
 }
 
 export default function Overview({ stockData }) {
+  const { isDark } = useTheme();
+
   if (!stockData) {
     return (
-      <div className="flex flex-col items-center justify-center h-full gap-4 text-slate-500">
-        <svg className="w-16 h-16 opacity-20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
+      <div className={`flex flex-col items-center justify-center h-full gap-4 ${isDark ? "text-slate-500" : "text-slate-400"}`}>
+        <svg className="w-16 h-16 opacity-30" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
           <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
           <polyline points="16 7 22 7 22 13" />
         </svg>
-        <p className="text-sm">Select a stock and click <span className="text-blue-400 font-semibold">Run Prediction</span> to begin</p>
+        <p className="text-sm font-medium">Select a stock and click <span className="text-blue-600 dark:text-blue-400 font-semibold">Run Prediction</span> to begin</p>
       </div>
     );
   }
 
-  const predColor = stockData.prediction === "Buy" ? "text-emerald-400" : "text-rose-400";
-  const predBg    = stockData.prediction === "Buy" ? "bg-emerald-500/10 border-emerald-500/20" : "bg-rose-500/10 border-rose-500/20";
+  const isBuy = stockData.prediction === "Buy";
+  const predColor = isBuy
+    ? isDark ? "text-emerald-400" : "text-emerald-700"
+    : isDark ? "text-rose-400" : "text-rose-700";
+  const predBg = isBuy
+    ? isDark ? "bg-emerald-500/10 border-emerald-500/20" : "bg-emerald-50/80 border-emerald-200"
+    : isDark ? "bg-rose-500/10 border-rose-500/20" : "bg-rose-50/80 border-rose-200";
 
   return (
     <div className="flex flex-col gap-5 h-full fade-in-up">
@@ -80,16 +89,18 @@ export default function Overview({ stockData }) {
         {/* Prediction signal */}
         <div className={`glass-card p-4 flex flex-col gap-3 border fade-in-up ${predBg} accent-border-top`}>
           <div className="flex items-center justify-between">
-            <p className="text-[11px] uppercase tracking-widest text-slate-400 font-semibold">Signal</p>
-            <div className="w-7 h-7 rounded-lg bg-slate-700/60 flex items-center justify-center text-slate-300">
+            <p className={`text-[11px] uppercase tracking-widest font-semibold ${isDark ? "text-slate-400" : "text-slate-500"}`}>Signal</p>
+            <div className={`w-7 h-7 rounded-lg flex items-center justify-center ${
+              isDark ? "bg-slate-700/60 text-slate-300" : "bg-white/80 text-slate-700 shadow-xs"
+            }`}>
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
           </div>
           <p className={`text-2xl font-bold ${predColor}`}>{stockData.prediction}</p>
-          <p className="text-[11px] text-slate-500">
-            Confidence: {stockData.confidence != null ? `${(stockData.confidence * 100).toFixed(1)}%` : "—"}
+          <p className={`text-[11px] ${isDark ? "text-slate-500" : "text-slate-600"}`}>
+            Confidence: {stockData.confidence != null ? `${(stockData.confidence).toFixed(1)}%` : "—"}
           </p>
         </div>
       </div>
@@ -98,12 +109,12 @@ export default function Overview({ stockData }) {
       <div className="glass-card flex-1 p-5 flex flex-col min-h-0">
         <div className="flex items-center justify-between mb-4 flex-shrink-0">
           <div>
-            <h2 className="text-sm font-semibold text-white">Stock Price Chart</h2>
-            <p className="text-[11px] text-slate-500 mt-0.5">Historical close price</p>
+            <h2 className={`text-sm font-semibold ${isDark ? "text-white" : "text-slate-900"}`}>Stock Price Chart</h2>
+            <p className={`text-[11px] mt-0.5 ${isDark ? "text-slate-500" : "text-slate-400"}`}>Historical close price</p>
           </div>
           <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-blue-500 inline-block"></span>
-            <span className="text-xs text-slate-400">Close</span>
+            <span className="w-2.5 h-2.5 rounded-full bg-blue-600 inline-block"></span>
+            <span className={`text-xs ${isDark ? "text-slate-400" : "text-slate-600"}`}>Close</span>
           </div>
         </div>
         <div className="flex-1 min-h-0">

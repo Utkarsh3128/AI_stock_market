@@ -10,6 +10,7 @@ import {
   Filler,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
+import { useTheme } from "../context/ThemeContext";
 
 ChartJS.register(
   CategoryScale,
@@ -22,45 +23,51 @@ ChartJS.register(
   Filler
 );
 
-// Shared chart options base
-const baseOptions = {
-  responsive: true,
-  maintainAspectRatio: true,
-  animation: { duration: 600 },
-  plugins: {
-    legend: {
-      labels: {
-        color: "#94a3b8",
-        font: { size: 11, family: "Inter" },
-        boxWidth: 12,
-        padding: 16,
+// Shared chart options base generator based on theme
+function getBaseOptions(isDark) {
+  return {
+    responsive: true,
+    maintainAspectRatio: true,
+    animation: { duration: 600 },
+    plugins: {
+      legend: {
+        labels: {
+          color: isDark ? "#94a3b8" : "#475569",
+          font: { size: 11, family: "Inter" },
+          boxWidth: 12,
+          padding: 16,
+        },
+      },
+      tooltip: {
+        backgroundColor: isDark ? "rgba(15,23,42,0.95)" : "rgba(255,255,255,0.95)",
+        titleColor: isDark ? "#e2e8f0" : "#0f172a",
+        bodyColor: isDark ? "#94a3b8" : "#334155",
+        borderColor: isDark ? "rgba(59,130,246,0.3)" : "rgba(203,213,225,0.9)",
+        borderWidth: 1,
+        padding: 10,
+        cornerRadius: 8,
+        boxPadding: 4,
       },
     },
-    tooltip: {
-      backgroundColor: "rgba(15,23,42,0.9)",
-      titleColor: "#e2e8f0",
-      bodyColor: "#94a3b8",
-      borderColor: "rgba(59,130,246,0.3)",
-      borderWidth: 1,
-      padding: 10,
-      cornerRadius: 8,
+    scales: {
+      x: {
+        grid: { color: isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.05)" },
+        ticks: { color: isDark ? "#94a3b8" : "#64748b", font: { size: 9, family: "Inter" }, maxTicksLimit: 8 },
+      },
+      y: {
+        grid: { color: isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.05)" },
+        ticks: { color: isDark ? "#94a3b8" : "#64748b", font: { size: 10, family: "Inter" } },
+      },
     },
-  },
-  scales: {
-    x: {
-      grid: { color: "rgba(255,255,255,0.04)" },
-      ticks: { color: "#475569", font: { size: 9, family: "Inter" }, maxTicksLimit: 8 },
-    },
-    y: {
-      grid: { color: "rgba(255,255,255,0.04)" },
-      ticks: { color: "#475569", font: { size: 10, family: "Inter" } },
-    },
-  },
-};
+  };
+}
 
 // Spark overview chart – close price only with gradient fill
 export function OverviewChart({ stockData }) {
+  const { isDark } = useTheme();
   if (!stockData) return null;
+
+  const baseOptions = getBaseOptions(isDark);
 
   const data = {
     labels: stockData.dates,
@@ -68,13 +75,13 @@ export function OverviewChart({ stockData }) {
       {
         label: "Close Price",
         data: stockData.close,
-        borderColor: "#3b82f6",
+        borderColor: "#2563eb",
         backgroundColor: (ctx) => {
           const chart = ctx.chart;
           const { ctx: c, chartArea } = chart;
           if (!chartArea) return "transparent";
           const grad = c.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
-          grad.addColorStop(0, "rgba(59,130,246,0.25)");
+          grad.addColorStop(0, isDark ? "rgba(59,130,246,0.25)" : "rgba(37,99,235,0.2)");
           grad.addColorStop(1, "rgba(59,130,246,0.01)");
           return grad;
         },
@@ -103,7 +110,10 @@ export function OverviewChart({ stockData }) {
 
 // Technical chart – Close + SMA + EMA
 export function TechnicalPriceChart({ stockData }) {
+  const { isDark } = useTheme();
   if (!stockData) return null;
+
+  const baseOptions = getBaseOptions(isDark);
 
   const data = {
     labels: stockData.dates,
@@ -111,7 +121,7 @@ export function TechnicalPriceChart({ stockData }) {
       {
         label: "Close Price",
         data: stockData.close,
-        borderColor: "#3b82f6",
+        borderColor: "#2563eb",
         backgroundColor: "rgba(59,130,246,0.0)",
         borderWidth: 2,
         pointRadius: 0,
@@ -130,8 +140,8 @@ export function TechnicalPriceChart({ stockData }) {
       {
         label: "EMA 20",
         data: stockData.ema_values,
-        borderColor: "#22c55e",
-        backgroundColor: "rgba(34,197,94,0.0)",
+        borderColor: "#10b981",
+        backgroundColor: "rgba(16,185,129,0.0)",
         borderWidth: 1.5,
         borderDash: [3, 3],
         pointRadius: 0,
@@ -145,7 +155,10 @@ export function TechnicalPriceChart({ stockData }) {
 
 // RSI chart – fixed 0-100 axis
 export function RSIChart({ stockData }) {
+  const { isDark } = useTheme();
   if (!stockData) return null;
+
+  const baseOptions = getBaseOptions(isDark);
 
   const data = {
     labels: stockData.dates,
@@ -153,13 +166,13 @@ export function RSIChart({ stockData }) {
       {
         label: "RSI 14",
         data: stockData.rsi_values,
-        borderColor: "#f43f5e",
+        borderColor: "#e11d48",
         backgroundColor: (ctx) => {
           const chart = ctx.chart;
           const { ctx: c, chartArea } = chart;
           if (!chartArea) return "transparent";
           const grad = c.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
-          grad.addColorStop(0, "rgba(244,63,94,0.18)");
+          grad.addColorStop(0, isDark ? "rgba(244,63,94,0.18)" : "rgba(225,29,72,0.15)");
           grad.addColorStop(1, "rgba(244,63,94,0.01)");
           return grad;
         },
@@ -183,15 +196,6 @@ export function RSIChart({ stockData }) {
           ...baseOptions.scales.y.ticks,
           stepSize: 20,
           callback: (val) => val,
-        },
-      },
-    },
-    plugins: {
-      ...baseOptions.plugins,
-      annotation: {
-        annotations: {
-          overbought: { type: "line", yMin: 70, yMax: 70, borderColor: "rgba(249,115,22,0.5)", borderWidth: 1 },
-          oversold: { type: "line", yMin: 30, yMax: 30, borderColor: "rgba(34,197,94,0.5)", borderWidth: 1 },
         },
       },
     },

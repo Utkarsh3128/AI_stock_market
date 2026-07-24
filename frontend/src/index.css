@@ -1,6 +1,5 @@
-@import "tailwindcss";
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import "tailwindcss";
 
 * {
   box-sizing: border-box;
@@ -11,9 +10,20 @@ html, body, #root {
   margin: 0;
   padding: 0;
   font-family: 'Inter', sans-serif;
+  overflow: hidden;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* Light Theme (Default) */
+html.light, body.light, .light {
+  background-color: #f8fafc;
+  color: #0f172a;
+}
+
+/* Dark Theme */
+html.dark, body.dark, .dark {
   background-color: #0b0f1a;
   color: #e2e8f0;
-  overflow: hidden;
 }
 
 /* Custom scrollbar */
@@ -21,7 +31,10 @@ html, body, #root {
   width: 5px;
   height: 5px;
 }
-::-webkit-scrollbar-track {
+.light ::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+.dark ::-webkit-scrollbar-track {
   background: #1e2535;
 }
 ::-webkit-scrollbar-thumb {
@@ -33,7 +46,15 @@ html, body, #root {
 }
 
 /* Glassmorphism card */
-.glass-card {
+.light .glass-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
+}
+
+.dark .glass-card {
   background: rgba(30, 37, 53, 0.85);
   backdrop-filter: blur(12px);
   border: 1px solid rgba(59, 130, 246, 0.12);
@@ -42,40 +63,57 @@ html, body, #root {
 }
 
 /* Blue glow accent */
-.blue-glow {
+.light .blue-glow {
+  box-shadow: 0 0 15px rgba(37, 99, 235, 0.25);
+}
+.dark .blue-glow {
   box-shadow: 0 0 20px rgba(59, 130, 246, 0.25);
 }
 
 /* Sidebar active nav item */
-.nav-item-active {
+.light .nav-item-active {
+  background: linear-gradient(90deg, rgba(37,99,235,0.1) 0%, rgba(37,99,235,0.02) 100%);
+  border-left: 3px solid #2563eb;
+  color: #2563eb;
+}
+.dark .nav-item-active {
   background: linear-gradient(90deg, rgba(59,130,246,0.18) 0%, rgba(59,130,246,0.04) 100%);
   border-left: 3px solid #3b82f6;
   color: #60a5fa;
 }
 
-/* Animated gradient border for cards */
-.accent-border-top {
-  border-top: 2px solid #3b82f6;
-}
-
 /* Tab button */
 .tab-active {
-  background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
-  color: white;
-  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+}
+
+/* Animated gradient border for cards */
+.accent-border-top {
+  border-top: 2.5px solid #2563eb;
 }
 
 /* Progress bar glow */
 .progress-glow {
-  box-shadow: 0 0 8px rgba(59, 130, 246, 0.6);
+  box-shadow: 0 0 8px rgba(37, 99, 235, 0.4);
 }
 
-/* Subtle grid background */
-.bg-grid {
+/* Grid background */
+.light .bg-grid {
+  background-image:
+    linear-gradient(rgba(37, 99, 235, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(37, 99, 235, 0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-color: #f8fafc;
+}
+
+.dark .bg-grid {
   background-image:
     linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
     linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
   background-size: 40px 40px;
+  background-color: #0b0f1a;
 }
 
 /* AI summary scrollable */
